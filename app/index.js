@@ -1,7 +1,7 @@
 import { View, SafeAreaView, Text } from "react-native";
 import { Stack, useRouter } from "expo-router";
 
-import { styles } from "../styles/search";
+import styles from "../styles/search";
 import HomePage from "../components/HomePage";
 
 const Home = () => {
@@ -9,9 +9,9 @@ const Home = () => {
         <SafeAreaView>
             <Stack.Screen
             options={{
-                headerStyle: {backgroundColor: "#87CEEB"}
+                headerStyle: {backgroundColor: "#87CEEB"},
+                headerTitle:"",
             }}
-            headTitle=""
             />
             <View>
                 <HomePage />
