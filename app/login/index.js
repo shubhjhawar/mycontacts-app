@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, SafeAreaView, TextInput } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 import styles from '../../styles/search';
 
@@ -31,6 +33,7 @@ const Search = () => {
             console.log(response.data);
             if(response.status===200)
             {
+                await AsyncStorage.setItem('AccessToken', response.data.accessToken)
                 router.push('/home');
             } else {
                 setError(response.data.message)

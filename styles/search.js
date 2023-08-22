@@ -61,6 +61,31 @@ const styles = StyleSheet.create({
         marginBottom:10,
         marginTop:10,
     },
+    userBtn: {
+        borderRadius: 50,
+        height: 40,
+        width: 40,
+        backgroundColor: "#6CA6CD",
+        padding: 11,
+        marginRight:5,
+        marginBottom: 15,
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: 'center',
+        lineHeight: 10,  
+    },
+    logoutContainer: {
+        position:"relative",
+        top: 0,
+        right: 0,
+        margin: 5,
+        padding: 15,
+        backgroundColor: "#D3D3D3",
+        borderRadius: 20,
+        textAlign: 'center',
+        justifyContent: "center",
+        alignItems: "center",
+    }
 });
 
 export default styles;
