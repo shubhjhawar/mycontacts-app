@@ -34,7 +34,7 @@ const Search = () => {
           console.log(response.data);
             if(response.status===201)
             {
-                router.push('/');
+                router.push('/login');
             }
             else if(response.status===400)
             {

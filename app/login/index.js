@@ -31,7 +31,7 @@ const Search = () => {
             console.log(response.data);
             if(response.status===200)
             {
-                router.push('/');
+                router.push('/home');
             } else {
                 setError(response.data.message)
             }
