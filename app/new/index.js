@@ -1,40 +1,39 @@
-import { useState } from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, TextInput } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
 import axios from 'axios';
-
+import { Stack, useRouter } from 'expo-router';
+import React, { useState } from 'react'
+import { SafeAreaView, Text, TextInput, View, TouchableOpacity } from 'react-native'
 import styles from '../../styles/search';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-const Search = () => {
+const NewContact = () => {
     const router = useRouter();
     const [form, setForm] = useState({
-        username: "",
+        name: "",
         email: "",
-        password: "",
+        phone: "",
     })
     const [error, setError] = useState("");
+    const [apiToken, setApiToken] = useState();
 
-    const handleSubmit = async () => {
+    const AddContact = async () => {
         try {
             const response = await axios.post(
-                "http://192.168.0.16:5001/api/users/register",
+                "http://192.168.0.16:5001/api/contacts",
                 {
-                  username: form.username,
+                  name: form.name,
                   email: form.email,
-                  password: form.password
+                  phone: form.phone
                 },
                 {
                   headers: {
-                    "Content-Type": "application/json"
+                    'Authorization': 'Bearer ' + apiToken
                   }
                 }
               );
 
-          console.log(response.data);
             if(response.status===201)
             {
-                router.push('/login');
+                router.push('/home');
             }
             else if(response.status===400)
             {
@@ -43,9 +42,24 @@ const Search = () => {
         } catch (error) {
           console.error('Error:', error);
           setError("Something went wrong, try again!")
-          
         }
       }
+    
+
+    const handleSubmit = () => {
+        const getToken = async () => {
+            const token = await AsyncStorage.getItem("AccessToken");
+            setApiToken(token);
+        }
+      
+      
+        getToken();
+    
+        if(apiToken)
+        {
+            AddContact();
+        }
+    }
       
   return (
     <SafeAreaView>
@@ -58,13 +72,13 @@ const Search = () => {
         />
         <View style={styles.container}>
             <View style={styles.formContainer}>
-                <Text style={styles.heading}>Sign up</Text>
+                <Text style={styles.heading}>Add New Contact</Text>
                 <TextInput
                     style = {styles.formfield}
-                    placeholder='username'
+                    placeholder='name'
                     placeholderTextColor='#837485'
-                    value={form.username}
-                    onChangeText={(text) => setForm({...form, username:text})}
+                    value={form.name}
+                    onChangeText={(text) => setForm({...form, name:text})}
                 />
 
                 <TextInput
@@ -77,10 +91,10 @@ const Search = () => {
 
                 <TextInput
                     style = {styles.formfield}
-                    placeholder='password'
+                    placeholder='phone'
                     placeholderTextColor='#837485'
-                    value={form.password}
-                    onChangeText={(text) => setForm({...form, password:text})}
+                    value={form.phone}
+                    onChangeText={(text) => setForm({...form, phone:text})}
                 />
 
                 {error && (
@@ -88,7 +102,7 @@ const Search = () => {
                 )}
 
                 <TouchableOpacity style={styles.buttons} onPress={handleSubmit}>
-                    <Text style={{color:"white", fontSize:24}}>Sign Up</Text>
+                    <Text style={{color:"white", fontSize:24}}>Add</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -96,4 +110,4 @@ const Search = () => {
   )
 }
 
-export default Search;
+export default NewContact

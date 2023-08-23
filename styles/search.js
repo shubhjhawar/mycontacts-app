@@ -61,6 +61,112 @@ const styles = StyleSheet.create({
         marginBottom:10,
         marginTop:10,
     },
+    userBtn: {
+        borderRadius: 50,
+        height: 40,
+        width: 40,
+        backgroundColor: "#6CA6CD",
+        padding: 11,
+        marginRight:5,
+        marginBottom: 15,
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: 'center',
+        lineHeight: 10,  
+    },
+    logoutContainer: {
+        position:"relative",
+        top: 0,
+        right: 0,
+        margin: 5,
+        padding: 15,
+        backgroundColor: "#D3D3D3",
+        borderRadius: 20,
+        textAlign: 'center',
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    contactWrapper: {
+        flexDirection: 'column', 
+        justifyContent: "center",
+        alignItems: "center",
+        width: 350,
+        height: 300,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        margin: 10,
+        //shadow
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 4.84,
+        elevation: 5,
+    },
+    contactContainer: {
+        position:'relative',
+        width: "100%",
+        height: "100%",
+        padding: 20,
+        flexDirection: 'column', 
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    contactName: {
+        fontSize: 50,
+        position:'absolute',
+        top:0,
+        marginTop:20,
+        padding:5,
+
+    },
+    contactEmail: {
+        fontSize: 20,
+        padding:10,
+        marginTop:20,
+    },
+    contactPhone: {
+        fontSize: 20,
+        position:'absolute',
+        bottom:0,
+        marginBottom:20,
+        padding:10,
+
+    },
+    footerWrapper: {
+        flex:1,
+        // justifyContent: "center",
+        alignItems: 'center',
+    },
+    footer: {
+        position: 'absolute',
+        bottom: 0,
+        padding: 10,
+        marginBottom: 5,
+        width: 375,
+        height: 50,
+        backgroundColor: '#FFA07A',
+        flex: 1,
+        borderRadius: 10,
+        justifyContent: 'center', 
+        alignItems: 'center',     
+        textAlign: 'center',
+    },
+    deleteWrapper: {
+        position: "absolute",
+        top:0,
+        right: 0,
+        padding: 15,
+        margin: 10,
+    },
+    deleteBtn: {
+        width:25, 
+        height:25,
+    }
+      
+
 });
 
 export default styles;
