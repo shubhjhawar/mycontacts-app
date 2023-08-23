@@ -1,32 +1,12 @@
 import { useState, useEffect } from 'react';
-import { View, SafeAreaView, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { View, SafeAreaView, Text, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import ContactCard from '../../components/ContactCard';
 
 import styles from '../../styles/search';
-
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
-
-const Item = ({title}) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>{title}</Text>
-  </View>
-);
+import AddContact from '../../components/AddContact';
 
 const Home = () => {
   const router = useRouter();
@@ -34,7 +14,7 @@ const Home = () => {
   const [display, setDisplay] = useState(false);
   const [apiToken, setApiToken] = useState(null);
   const [data, setData] = useState([]);
-  const [isData, setIsData] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -48,8 +28,9 @@ const Home = () => {
   }, [])
 
   const getContacts = async () => {
-    await fetch('http://192.168.0.16:5001/api/contacts', {
-      method:"GET",
+    try {
+      await fetch('http://192.168.0.16:5001/api/contacts', {
+        method:"GET",
       headers:{
         'Authorization': 'Bearer ' + apiToken
       }
@@ -57,17 +38,20 @@ const Home = () => {
     .then((response) => {
       if(!response.ok)
       {
-        console.log("not ok")
         return response.json().then(data => {
           console.log(data);
         })
       } else {
-        console.log("ok");
         return response.json().then(data => {
           setData(data);
         })
       }
     })
+    } catch {
+
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -75,7 +59,6 @@ const Home = () => {
     const getToken = async () => {
       const token = await AsyncStorage.getItem("AccessToken");
       setApiToken(token);
-      console.log(apiToken);
     }
 
 
@@ -83,49 +66,14 @@ const Home = () => {
 
     if(apiToken)
     {
-      console.log("api call")
-      getContacts();
+      setIsLoading(true);
+
+      setTimeout(() => {
+        getContacts();
+      }, 1000)
     }
 
   }, [apiToken])
-  
-  
-
-  // useEffect(() => {
-  //   const MAX_RETRIES = 3; // Maximum number of retries
-  //   let retries = 0;
-  
-  //   const getContactsWithRetry = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "http://192.168.0.16:5001/api/contacts",
-  //         {
-  //           headers: {
-  //             'Authorization': 'Bearer ' + apiToken
-  //           }
-  //         }
-  //       );
-  //       console.log("API call successful");
-  //       setData(response.data);
-  //     } catch (error) {
-  //       console.log("API call failed:", error);
-  //       if (retries < MAX_RETRIES) {
-  //         const delay = Math.pow(2, retries) * 1000; // Increase delay exponentially
-  //         console.log(`Retrying in ${delay}ms...`);
-  //         retries++;
-  //         setTimeout(getContactsWithRetry, delay);
-  //       } else {
-  //         console.log("Max retries reached. Unable to fetch data.");
-  //       }
-  //     }
-  //   };
-  
-  //   if (!isData) {
-  //     getContactsWithRetry();
-  //   }
-  // }, []);
-  
-  
 
   const handleLogout = async () => {
     console.log("logout button clicked")
@@ -158,16 +106,24 @@ const Home = () => {
           </TouchableOpacity>
         )}
       </View>
-      <View >
+      <View style={styles.container}>
         <View >
           <Text style={styles.heading}>My Contacts</Text>
         </View>
-        <FlatList
-        data={data}
-        renderItem={({item}) => <Item title={item.email || "herere"} />}
-        keyExtractor={item => item?._id}
-      />
-        
+        {isLoading ? (
+          <ActivityIndicator size="large" colors="gray"/>
+        ): data.length === 0 ? (
+          <Text>You do not have any contacts at the moment!</Text>
+        ): (
+          <FlatList
+          data={data}
+          renderItem={({item}) => <ContactCard name={item.name} email={item.email} phone={item.phone}/>}
+          keyExtractor={item => item?._id}
+          />
+        )}
+      </View>
+      <View style={styles.footer}>
+        <AddContact />
       </View>
     </SafeAreaView>
   )

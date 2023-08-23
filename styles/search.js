@@ -85,7 +85,63 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         justifyContent: "center",
         alignItems: "center",
+    },
+    contactWrapper: {
+        flexDirection: 'column', 
+        justifyContent: "center",
+        alignItems: "center",
+        width: 350,
+        height: 300,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        margin: 10,
+        //shadow
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 4.84,
+        elevation: 5,
+    },
+    contactContainer: {
+        position:'relative',
+        width: "100%",
+        height: "100%",
+        padding: 20,
+        flexDirection: 'column', 
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    contactName: {
+        fontSize: 50,
+        position:'absolute',
+        top:0,
+        marginTop:20,
+        padding:5,
+
+    },
+    contactEmail: {
+        fontSize: 20,
+        padding:10,
+        marginTop:20,
+    },
+    contactPhone: {
+        fontSize: 20,
+        position:'absolute',
+        bottom:0,
+        marginBottom:20,
+        padding:10,
+
+    },
+    footer: {
+        position:'absolute',
+        bottom: 0,
+        padding:10,
+        margin: 20,
     }
+
 });
 
 export default styles;
